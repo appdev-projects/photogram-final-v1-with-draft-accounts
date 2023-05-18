@@ -65,6 +65,21 @@
 
     <th></th>
   </tr>
+  <% @the_user.own_photos.each do |a_photo| %>
+        <tr>
+          <td>
+            <img src="<%=a_photo.image %>%">
+          </td>
+
+          <td>
+            <%= a_photo.owner.username%>
+          </td>
+          <td>
+            <%= a_photo.caption %>
+          </td>
+        </tr>
+        <% end %>
+</table>
 
   <tr>
     <td>
