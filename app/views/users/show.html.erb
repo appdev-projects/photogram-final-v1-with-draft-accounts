@@ -10,7 +10,7 @@
 
 
       <div>
-          <a href="/delete_follow_request/1861">
+          <a href="/delete_follow_request/<%=@the_user.id%>">
             Unfollow
           </a>
     </div>
@@ -77,35 +77,18 @@
           <td>
             <%= a_photo.caption %>
           </td>
+          <td>
+            <%= time_ago_in_words(a_photo.created_at) %>
+          </td>
+          <td>
+            <%= a_photo.likes_count %>
+          </td>
+
+          <td>
+            <a href="/photos/<%=a_photo.id%>">
+              Show details
+            </a>
+          </td>
         </tr>
         <% end %>
-</table>
-
-  <tr>
-    <td>
-      <img src="https://robohash.org/omnisatqueneque">
-    </td>
-
-    <td>
-      carol
-    </td>
-
-    <td>
-      Summer will end soon enough, and childhood as well.
-    </td>
-
-    <td>
-      about 4 years ago
-    </td>
-
-    <td>
-      5
-    </td>
-
-    <td>
-      <a href="/photos/751">
-        Show details
-      </a>
-    </td>
-  </tr>
 </table>

@@ -27,7 +27,13 @@
         </td>
 
         <td>
-          <%= a_user.private %>
+          <% private = a_user.private %>
+          <% if private == true %>
+            Yes
+
+          <% else %>
+            No
+          <% end %>
         </td>
         <td>
           <a href="/users/<%= a_user.username %>">
