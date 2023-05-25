@@ -9,18 +9,14 @@
 <hr>
 
 
+<% if @current_user != nil%>
 <div>
   <div>
-    <h2>
-      Add a new photo
-    </h2>
-
     <form action="/insert_photo" method="post">
       <div>
         <label for="caption_box">
           Caption
         </label>
-
         <input type="text" id="caption_box" name="input_caption" placeholder="Enter a caption for the photo...">
       </div>
 
@@ -29,7 +25,7 @@
           Image
         </label>
 
-        <input type="text" id="image_box" name="input_image" placeholder="Enter a URL for the image...">
+        <input type="file" id="image_box" name="input_image" >
       </div>
 
       <button>
@@ -38,6 +34,9 @@
     </form>
   </div>
 </div>
+<% else %>
+  nothing
+<% end%>
 
 <hr>
 <div>
