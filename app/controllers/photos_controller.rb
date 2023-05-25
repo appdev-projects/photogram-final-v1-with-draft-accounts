@@ -18,30 +18,39 @@ class PhotosController < ApplicationController
   end
 
   def create
+    user_id = session.fetch(:user_id)
+    image = params.fetch("input_image")
+    caption = params.fetch("input_caption")
     the_photo = Photo.new
-    the_photo.caption = params.fetch("query_caption")
-    the_photo.image = params.fetch("query_image")
-    the_photo.owner_id = params.fetch("query_owner_id")
-    the_photo.likes_count = params.fetch("query_likes_count")
-    the_photo.comments_count = params.fetch("query_comments_count")
+    the_photo.owner_id = user_id
+    the_photo.image = image
+    the_photo.caption = caption
+
+#    the_photo = Photo.new
+#    the_photo.caption = params.fetch("query_caption")
+#    the_photo.image = params.fetch("query_image")
+#    the_photo.owner_id = params.fetch("query_owner_id")
+#    the_photo.likes_count = params.fetch("query_likes_count")
+#    the_photo.comments_count = params.fetch("query_comments_count")
 
     if the_photo.valid?
       the_photo.save
-      redirect_to("/photos", { :notice => "Photo created successfully." })
+      redirect_to("/photos/#{the_photo.id}", { :notice => "Photo created successfully." })
     else
       redirect_to("/photos", { :alert => the_photo.errors.full_messages.to_sentence })
     end
   end
 
   def update
+    user_id = session.fetch(:user_id)
     the_id = params.fetch("path_id")
     the_photo = Photo.where({ :id => the_id }).at(0)
 
     the_photo.caption = params.fetch("query_caption")
     the_photo.image = params.fetch("query_image")
-    the_photo.owner_id = params.fetch("query_owner_id")
-    the_photo.likes_count = params.fetch("query_likes_count")
-    the_photo.comments_count = params.fetch("query_comments_count")
+    the_photo.owner_id = user_id
+    #the_photo.likes_count = params.fetch("query_likes_count")
+    #the_photo.comments_count = params.fetch("query_comments_count")
 
     if the_photo.valid?
       the_photo.save

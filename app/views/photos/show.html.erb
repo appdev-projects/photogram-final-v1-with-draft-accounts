@@ -11,11 +11,6 @@
         </a>
       </div>
 
-      <div>
-        <a href="/delete_photo/<%= @the_photo.id %>">
-          Delete photo
-        </a>
-      </div>
     </div>
 
     <dl>
@@ -83,101 +78,77 @@
             <button>Like</button>
             </form>
         <% else %>
-          <form action="/delete_like/<%=@current_like.id %>" method="get">
-
-            <button>Unlike</button>
+          <a href="/delete_like/<%=@current_like.id %>">
+            Unlike
+          </a>
           </form>
+
+
+          
         <% end %>
       <% end %>
       </dd>
 
-     <%= @the_photo.likes%>%
-    @current_user = User.where({ :id => session[:user_id]}).at(0)
-
-
+      <% if @the_photo.owner_id ==@current_user.id%>
       <dt>Edit photo</dt>
       <dd>
-        <form action="/modify_photo/<%= @the_photo.id %>"  method="post"  enctype="multipart/form-data">
-          <label for="browser_image">Image URL</label>
-          <input id="browser_image" type="file" name="query_image" placeholder="Enter a URL for the image..." value="https://robohash.org/atharumblanditiis">
-        
-        
-          <label for="browser_caption">Caption</label>
-          <textarea id="browser_caption" name="query_caption" placeholder="Enter a caption for the photo..."><%= @the_photo.caption %></textarea>
-        
-          <button>Update photo</button>
+      <form action="/modify_photo/<%= @the_photo.id %>"  method="post" >
+          <div>
+            <label for="caption_box">
+              Caption
+            </label>
+
+            <input id="caption_box" name="query_caption" value="<%= @the_photo.caption %>">
+          
+
+          
+            <label for="image_box">
+              Image
+            </label>
+
+            <input type="file" id="image_box" name="query_image" value="<%= @the_photo.image %>">
+          </div>
+
+          <div>
+            <label for="owner_id_box">
+            </label>
+
+            <input type="hidden" id="owner_id_box" name="query_owner_id" value="<%= @the_photo.owner_id %>">
+          </div>
+
+          <div>
+            <label for="likes_count_box">
+            </label>
+
+            <input type="hidden" id="likes_count_box" name="query_likes_count" value="<%= @the_photo.likes_count %>">
+          </div>
+
+          <div>
+            <label for="comments_count_box">
+            </label>
+
+            <input type="hidden" id="comments_count_box" name="query_comments_count" value="<%= @the_photo.comments_count %>">
+          </div>
+
+          <button>
+            Update photo
+          </button>
         </form>
       </dd>
 
       <dt>Delete photo</dt>
       <dd>
         <a href="/delete_photo/<%= @the_photo.id %>">
-          Delete photo
+          Delete this photo
         </a>
       </dd>
+    <% else %>
+      nothing
+    <% end %>
       
     </dl>
   </div>
 </div>
-
-
-<hr>
-<div>
-  <div>
-    <h2>
-      Edit photo
-    </h2>
-
-    <form action="/modify_photo/<%= @the_photo.id %>"  method="post" >
-      <div>
-        <label for="caption_box">
-          Caption
-        </label>
-
-        <input type="text" id="caption_box" name="query_caption" value="<%= @the_photo.caption %>">
-      </div>
-
-      <div>
-        <label for="image_box">
-          Image
-        </label>
-
-        <input type="text" id="image_box" name="query_image" value="<%= @the_photo.image %>">
-      </div>
-
-      <div>
-        <label for="owner_id_box">
-          Owner
-        </label>
-
-        <input type="text" id="owner_id_box" name="query_owner_id" value="<%= @the_photo.owner_id %>">
-      </div>
-
-      <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-
-        <input type="text" id="likes_count_box" name="query_likes_count" value="<%= @the_photo.likes_count %>">
-      </div>
-
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-
-        <input type="text" id="comments_count_box" name="query_comments_count" value="<%= @the_photo.comments_count %>">
-      </div>
-
-      <button>
-        Update photo
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
-
 
 
 

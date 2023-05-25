@@ -8,6 +8,7 @@
 
 <hr>
 
+
 <div>
   <div>
     <h2>
@@ -20,7 +21,7 @@
           Caption
         </label>
 
-        <input type="text" id="caption_box" name="query_caption">
+        <input type="text" id="caption_box" name="input_caption" placeholder="Enter a caption for the photo...">
       </div>
 
       <div>
@@ -28,35 +29,11 @@
           Image
         </label>
 
-        <input type="text" id="image_box" name="query_image">
-      </div>
-
-      <div>
-        <label for="owner_id_box">
-          Owner
-        </label>
-
-        <input type="text" id="owner_id_box" name="query_owner_id">
-      </div>
-
-      <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-
-        <input type="text" id="likes_count_box" name="query_likes_count">
-      </div>
-
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-
-        <input type="text" id="comments_count_box" name="query_comments_count">
+        <input type="text" id="image_box" name="input_image" placeholder="Enter a URL for the image...">
       </div>
 
       <button>
-        Create photo
+        Add photo
       </button>
     </form>
   </div>
@@ -114,11 +91,11 @@
         </td>
 
         <td>
-          <%= a_photo.image %>
+         <img src="<%= a_photo.image %>">
         </td>
 
         <td>
-          <%= a_photo.owner_id %>
+          <%= a_photo.owner.username %>
         </td>
 
         <td>
