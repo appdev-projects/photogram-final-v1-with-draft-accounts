@@ -1,0 +1,95 @@
+<h1><%=@the_user.username%></h1>
+
+<dl>
+  <dt>Private</dt>
+  <dd><%=@the_user.private%></dd>
+
+  <dt>Followers</dt>
+  <dd>
+    <%=@the_user.followers.count%>
+  <dt>Following</dt>
+    <dd><%=@the_user.following.count%></dd>
+  
+</dl>
+
+<nav>
+  <ul>
+    <li>
+      <a href="/users/<%=@the_user.username%>">Profile</a>
+    </li>
+    <li>
+      <a href="/users/<%=@the_user.username%>/liked_photos">Liked photos</a>
+    </li>
+    <li>
+      <a href="/users/<%=@the_user.username%>/feed">Feed</a>
+    </li>
+    <li>
+      <a href="/users/<%=@the_user.username%>/discover">Discover</a>
+    </li>
+  </ul>
+</nav>
+
+
+<% accepted = FollowRequest.where({ :sender_id => @the_user.id, :status => "accepted" }) %>
+<% accepted.each do |f_profiles| %>
+  <% f_profiles.recipient_id %>
+    <% matching_users = User.where({ :id => f_profiles.recipient_id }) %>
+      <% matching_users.each do |a_profile| %>
+        <% matching_users.each do |a_profile| %>
+            <% a_profile.own_photos.each do |a_photo| %>
+            <table border="1">
+              <tr>
+                <th>
+                  Image
+                </th>
+
+                <th>
+                  Owner
+                </th>
+
+                <th>
+                  Caption
+                </th>
+
+                <th>
+                  Posted
+                </th>
+
+                <th>
+                  Likes
+                </th>
+              </tr>
+              <tr>
+                <td>
+                  <img src="<%=a_photo.image %>%">
+                </td>
+
+                <td>
+                  <%= a_photo.owner.username%>
+                </td>
+                <td>
+                  <%= a_photo.caption %>
+                </td>
+                <td>
+                  <%= time_ago_in_words(a_photo.created_at) %> ago
+                </td>
+                <td>
+                  <%= a_photo.likes_count %>
+                </td>
+
+                <td>
+                  <a href="/photos/<%=a_photo.id%>">
+                    Show details
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <% end %>
+        <% end %>
+      <% end %>
+ <% end %>
+</table>
+
+
+
+ 
