@@ -1,6 +1,7 @@
 class FollowRequestsController < ApplicationController
   def index
     matching_follow_requests = FollowRequest.all
+    @all_follow_requests = FollowRequest.all
 
     @list_of_follow_requests = matching_follow_requests.order({ :created_at => :desc })
 
@@ -18,8 +19,9 @@ class FollowRequestsController < ApplicationController
   end
 
   def create
+    user_id = session.fetch(:user_id)
     the_follow_request = FollowRequest.new
-    the_follow_request.sender_id = params.fetch("query_sender_id")
+    the_follow_request.sender_id = user_id
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
     the_follow_request.status = params.fetch("query_status")
 
