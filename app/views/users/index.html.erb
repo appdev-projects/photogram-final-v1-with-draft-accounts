@@ -1,0 +1,83 @@
+<div>
+  <div>
+    <h1>
+      List of all users
+    </h1>
+  </div>
+</div>
+
+
+<table border="1">
+  <tr>
+    <th>
+      Username
+    </th>
+
+    <th>
+      Private?
+    </th>
+
+    <th></th>
+    <th></th>
+  </tr>
+<% @list_of_users.each do |a_user| %>
+      <tr>
+        <td>
+          <%= a_user.username %>
+        </td>
+
+        <td>
+          <% private = a_user.private %>
+          <% if private == true %>
+            Yes
+
+          <% else %>
+            No
+          <% end %>
+        </td>
+        <% if @current_user != nil%>
+        <td>  
+            <% matching_follow_requests = FollowRequest.where({ :recipient_id => a_user.id, :sender_id => @current_user.id }).at(0) %>
+            <% if matching_follow_requests == nil  %>
+              <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="<%=a_user.id%>">
+                <% if a_user.private == false %>
+                      <input type="hidden" name="query_status" value="accepted">
+                    
+                <% elsif a_user.private == true%> 
+                      
+                      <input type="hidden" name="query_status" value="pending">
+                <% end %>
+              
+
+              <button>
+                Follow
+              </button>
+              </form>
+            <% elsif matching_follow_requests.status == "pending"%> 
+              Request sent.
+              <a href="/delete_follow_request/<%= matching_follow_requests.id %>">
+                Cancel
+              </a>
+             <% elsif matching_follow_requests.status == "accepted"%> 
+                <a href="/delete_follow_request/<%= matching_follow_requests.id %>">
+                Unfollow
+              </a>
+            <% end %>
+
+
+        </td>
+        <% end %>
+        <td>
+        <% if @current_user != nil%>
+          <a href="/users/<%= a_user.username %>">
+            Show details
+          </a>
+        <% else %>
+          <a href="/", {:alert } >
+            Show details
+        <% end %>
+        </td>
+      </tr>
+      <% end %>
+</table>

@@ -1,0 +1,192 @@
+<div>
+  <div>
+    <h1>
+      Photo #<%= @the_photo.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/photos">
+          Go back
+        </a>
+      </div>
+
+    </div>
+
+    <dl>
+      <dt>
+        Caption
+      </dt>
+      <dd>
+        <%= @the_photo.caption %>
+      </dd>
+
+      <dt>
+        Image
+      </dt>
+      <dd>
+        <img src="<%= @the_photo.image %>">
+      </dd>
+
+      <dt>
+        Owner
+      </dt>
+      <dd>
+        <%= @the_photo.owner.username%>
+      </dd>
+
+      <dt>
+        Posted
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_photo.created_at) %> ago
+      </dd>
+
+      <dt>
+        Likes count
+      </dt>
+      <dd>
+        <%= @the_photo.likes_count %>
+      </dd>
+
+      <dt>
+        Comments count
+      </dt>
+      <dd>
+        <%= @the_photo.comments_count %>
+      </dd>
+
+      <dt>
+        Fans
+      </dt>
+      <dd>
+      <% for i in @the_photo.fans%>
+          <%=i.username%>,
+        <% end %>
+      </dd>
+
+      <dt>Add a fan</dt>
+      <dd>
+
+       <% if @current_user != nil%>
+        <% @current_like = Like.where({ :fan_id => session[:user_id], :photo_id => @the_photo.id}).at(0) %>
+        <% if @the_photo.likes.exclude? @current_like%>
+            <form action="/insert_like" method="post">
+            <input type="hidden" value= <%=@the_photo.id%> name="query_photo_id">
+            <input type="hidden" value= <%=session[:user_id] %> name="query_fan_id">
+
+            <button>Like</button>
+            </form>
+        <% else %>
+          <a href="/delete_like/<%=@current_like.id %>">
+            Unlike
+          </a>
+          </form>
+
+
+          
+        <% end %>
+      <% end %>
+      </dd>
+
+      <% if @the_photo.owner_id ==@current_user.id%>
+      <dt>Edit photo</dt>
+      <dd>
+      <form action="/modify_photo/<%= @the_photo.id %>"  method="post" >
+          <div>
+            <label for="caption_box">
+              Caption
+            </label>
+
+            <input id="caption_box" name="query_caption" value="<%= @the_photo.caption %>">
+          
+
+          
+            <label for="image_box">
+              Image
+            </label>
+
+            <input type="file" id="image_box" name="query_image" value="<%= @the_photo.image %>">
+          </div>
+
+          <div>
+            <label for="owner_id_box">
+            </label>
+
+            <input type="hidden" id="owner_id_box" name="query_owner_id" value="<%= @the_photo.owner_id %>">
+          </div>
+
+          <div>
+            <label for="likes_count_box">
+            </label>
+
+            <input type="hidden" id="likes_count_box" name="query_likes_count" value="<%= @the_photo.likes_count %>">
+          </div>
+
+          <div>
+            <label for="comments_count_box">
+            </label>
+
+            <input type="hidden" id="comments_count_box" name="query_comments_count" value="<%= @the_photo.comments_count %>">
+          </div>
+
+          <button>
+            Update photo
+          </button>
+        </form>
+      </dd>
+
+      <dt>Delete photo</dt>
+      <dd>
+        <a href="/delete_photo/<%= @the_photo.id %>">
+          Delete this photo
+        </a>
+      </dd>
+    <% else %>
+      nothing
+    <% end %>
+      
+    </dl>
+  </div>
+</div>
+
+
+
+<h2>Comments</h2>
+
+<table>
+  <tr>
+    <th>Commenter</th>
+    <th>Comment</th>
+    <th>Posted</th>
+  </tr>
+
+  <% @the_photo.comments.each do |comment| %>
+  <tr>
+    <td>
+      <%= comment.commenter.username %>
+    </td>
+
+    <td>
+      <%= comment.body %>
+    </td>
+
+    <td>
+      <%= time_ago_in_words(comment.created_at)%> ago
+    </td>
+  </tr>
+  
+  <% end %>
+</table>
+
+<h3>Add a new comment</h3>
+
+<form action="/insert_comment" method="post">
+  <input id="browser_photo_id" type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
+
+
+  <label for="browser_comment">Comment</label>
+  <textarea id="browser_comment" name="query_body" placeholder="Enter a comment..."></textarea>
+
+  <button>Add comment</button>
+</form>

@@ -1,0 +1,126 @@
+<div>
+  <div>
+    <h1>
+      List of all photos
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+
+<% if @current_user != nil%>
+<div>
+  <div>
+    <form action="/insert_photo" method="post">
+      <div>
+        <label for="caption_box">
+          Caption
+        </label>
+        <input type="text" id="caption_box" name="input_caption" placeholder="Enter a caption for the photo...">
+      </div>
+
+      <div>
+        <label for="image_box">
+          Image
+        </label>
+
+        <input type="file" id="image_box" name="input_image" >
+      </div>
+
+      <button>
+        Add photo
+      </button>
+    </form>
+  </div>
+</div>
+<% else %>
+  nothing
+<% end%>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Caption
+        </th>
+
+        <th>
+          Image
+        </th>
+
+        <th>
+          Owner
+        </th>
+
+        <th>
+          Likes count
+        </th>
+
+        <th>
+          Comments count
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_photos.each do |a_photo| %>
+      <tr>
+        <td>
+          <%= a_photo.id %>
+        </td>
+
+        <td>
+          <%= a_photo.caption %>
+        </td>
+
+        <td>
+         <img src="<%= a_photo.image %>">
+        </td>
+
+        <td>
+          <%= a_photo.owner.username %>
+        </td>
+
+        <td>
+          <%= a_photo.likes_count %>
+        </td>
+
+        <td>
+          <%= a_photo.comments_count %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_photo.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_photo.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/photos/<%= a_photo.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
